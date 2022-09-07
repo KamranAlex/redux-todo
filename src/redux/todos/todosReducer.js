@@ -6,39 +6,62 @@ import {
   COMPLETE_ALL,
   CLEAR_COMPLETED
 } from './actionTypes';
+import { v4 as u_id } from 'uuid';
 
-const initialState = [
-  {
-    id: 1,
-    title: 'Learn React JS',
-    complete: true
-  },
-  {
-    id: 2,
-    title: 'Learn Redux',
-    complete: false
-  }
-];
+const initialState = [];
 
 const todosReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADDED: {
-      return;
+      return [
+        ...state,
+        {
+          id: u_id(),
+          title: action.payload,
+          completed: false
+        }
+      ];
     }
+
     case DELETED: {
-      return;
+      return state.filter((todo) => todo.id !== action.payload);
     }
+
     case TOGGLED: {
-      return;
+      return state.map((todo) => {
+        if (todo.id !== action.payload) {
+          return todo;
+        }
+        return {
+          ...todo,
+          completed: !todo.completed
+        };
+      });
     }
+
     case COLOR_SELECTED: {
-      return;
+      return state.map((todo) => {
+        if (todo.id !== action.payload.todoID) {
+          return todo;
+        }
+        return {
+          ...todo,
+          color: action.payload.color
+        };
+      });
     }
+
     case COMPLETE_ALL: {
-      return;
+      return state.map((todo) => {
+        return {
+          ...todo,
+          completed: !todo.completed
+        };
+      });
     }
+
     case CLEAR_COMPLETED: {
-      return;
+      return state.filter((todo) => todo.completed !== true);
     }
     default: {
       return state;
