@@ -4,7 +4,6 @@ import cancelIMG from '../assets/images/cancel.png';
 import { colorSelected, deleted, toggled } from '../redux/todos/actions';
 
 const Todo = (props) => {
-  console.log(props.singleTodo);
   const { id, title, completed, color } = props.singleTodo;
   const dispatch = useDispatch();
 
